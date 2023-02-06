@@ -1,3 +1,9 @@
+# Summarizer
+
+This browser extension builds on top of the [kagi universal summarizer](https://labs.kagi.com/ai/sum) to summarize pages you visit within a popup window.
+
+---
+
 This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
 
 ## Getting Started
