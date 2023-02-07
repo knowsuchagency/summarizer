@@ -70,7 +70,7 @@ const IndexPopup = () => {
         height: "100%",
         fontSize: 20,
         backgroundColor: isDarkMode ? "#333" : "#fff",
-        color: isDarkMode ? "#fff" : "#333",
+        color: isDarkMode ? "#fff" : "#333"
       }}>
       {isLoading ? (
         <div>Loading...</div>
@@ -80,7 +80,7 @@ const IndexPopup = () => {
             fontSize: 24,
             lineHeight: "32px",
             textAlign: "justify",
-          fontFamily: "system-ui, sans-serif"
+            fontFamily: "system-ui, sans-serif"
           }}
           dangerouslySetInnerHTML={{ __html: summary }}
         />
