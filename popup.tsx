@@ -79,7 +79,8 @@ const IndexPopup = () => {
           style={{
             fontSize: 24,
             lineHeight: "32px",
-            textAlign: "justify"
+            textAlign: "justify",
+          fontFamily: "system-ui, sans-serif"
           }}
           dangerouslySetInnerHTML={{ __html: summary }}
         />
