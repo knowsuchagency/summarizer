@@ -7,8 +7,9 @@
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
-    "build:firefox:dev": "npx plasmo build --target=firefox-mv2 --tag=dev ; python3 scripts/doctor_firefox_manifest.py",
-    "package": "plasmo package"
+    "build:firefox:dev": "npx plasmo build --target=firefox-mv2 --tag=dev ; python3 scripts/doctor_firefox_manifest.py; python3 scripts/generate_xpi.py",
+    "package": "plasmo package",
+    "api:local": ". .venv/bin/activate ; cd api ; chalice local"
   },
   "dependencies": {
     "plasmo": "0.64.5",
@@ -22,7 +23,8 @@
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "prettier": "2.8.3",
-    "typescript": "4.9.4"
+    "typescript": "4.9.4",
+    "web-ext": "^7.5.0"
   },
   "manifest": {
     "host_permissions": [
