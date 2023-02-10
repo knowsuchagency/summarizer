@@ -1,10 +1,5 @@
-import { Alert, Container, NavLink, Skeleton, Tabs, Text } from "@mantine/core"
-import {
-  IconAlertCircle,
-  IconDog,
-  IconNotebook,
-  IconSquareAsterisk
-} from "@tabler/icons-react"
+import { Container, NavLink, Skeleton, Tabs, Text } from "@mantine/core"
+import { IconDog, IconNotebook, IconSquareAsterisk } from "@tabler/icons-react"
 import React, { useEffect, useState } from "react"
 
 import { ThemeProvider } from "~theme"
@@ -130,23 +125,21 @@ function IndexPopup() {
 
   return (
     <ThemeProvider>
-      {url && (
-        <Tabs
-          defaultValue="Summary"
-          orientation="horizontal"
-          variant="outline"
-          sx={{ width: "400px" }}>
-          <Tabs.List grow={true}>
-            <Tabs.Tab value="Summary" icon={<IconNotebook size={16} />}>
-              Summary
-            </Tabs.Tab>
-            <Tabs.Tab
-              value="Key Moments"
-              icon={<IconSquareAsterisk size={16} />}>
-              Key Moments
-            </Tabs.Tab>
-          </Tabs.List>
-          (
+      <Tabs
+        defaultValue="Summary"
+        orientation="horizontal"
+        variant="outline"
+        sx={{ width: "400px" }}>
+        <Tabs.List grow={true}>
+          <Tabs.Tab value="Summary" icon={<IconNotebook size={16} />}>
+            Summary
+          </Tabs.Tab>
+          <Tabs.Tab value="Key Moments" icon={<IconSquareAsterisk size={16} />}>
+            Key Moments
+          </Tabs.Tab>
+        </Tabs.List>
+
+        {url && (
           <>
             <Tabs.Panel value="Summary" pt="md">
               <Summary url={url} />
@@ -163,18 +156,8 @@ function IndexPopup() {
               icon={<IconDog size={16} stroke={1.5} />}
             />
           </>
-          )
-        </Tabs>
-      )}
-      {url || (
-        <Alert
-          icon={<IconAlertCircle size={16} />}
-          title="nothing to summarize"
-          color="orange"
-          sx={{ width: "250px" }}>
-          {}
-        </Alert>
-      )}
+        )}
+      </Tabs>
     </ThemeProvider>
   )
 }
