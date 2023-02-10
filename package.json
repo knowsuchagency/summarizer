@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
-    "build:firefox:dev": "npx plasmo build --target=firefox-mv2 --tag=dev ; python3 scripts/doctor_firefox_manifest.py; python3 scripts/generate_xpi.py",
+    "build:firefox:dev": "npx plasmo build --target=firefox-mv2 --tag=dev ; python3 scripts/doctor_firefox_manifest.py",
     "package": "plasmo package",
     "api:local": ". .venv/bin/activate ; cd api ; chalice local"
   },
