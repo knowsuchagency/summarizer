@@ -1,4 +1,5 @@
-import { Container, Skeleton, Tabs, Text } from "@mantine/core"
+import { Container, NavLink, Skeleton, Tabs, Text } from "@mantine/core"
+import { IconDog, IconNotebook, IconSquareAsterisk } from "@tabler/icons-react"
 import React, { useEffect, useState } from "react"
 
 import { ThemeProvider } from "~theme"
@@ -14,11 +15,19 @@ function Loading() {
 }
 
 function TextWrapper(props: { html: string }) {
+  function ableToSummarize(html) {
+    return !html.includes("Unable to summarize, text is too short.")
+  }
+
+  const html = ableToSummarize(props.html)
+    ? props.html
+    : "Unable to summarize, text is too short."
+
   return (
     <Text fz="xl" fw={500}>
       <p
         style={{ lineHeight: "32px" }}
-        dangerouslySetInnerHTML={{ __html: props.html }}
+        dangerouslySetInnerHTML={{ __html: html }}
       />
     </Text>
   )
@@ -119,10 +128,15 @@ function IndexPopup() {
       <Tabs
         defaultValue="Summary"
         orientation="horizontal"
+        variant="outline"
         sx={{ width: "400px" }}>
         <Tabs.List grow={true}>
-          <Tabs.Tab value="Summary">Summary</Tabs.Tab>
-          <Tabs.Tab value="Key Moments">Key Moments</Tabs.Tab>
+          <Tabs.Tab value="Summary" icon={<IconNotebook size={16} />}>
+            Summary
+          </Tabs.Tab>
+          <Tabs.Tab value="Key Moments" icon={<IconSquareAsterisk size={16} />}>
+            Key Moments
+          </Tabs.Tab>
         </Tabs.List>
 
         {url && (
@@ -133,6 +147,14 @@ function IndexPopup() {
             <Tabs.Panel value="Key Moments" pt="xs">
               <KeyMoments url={url} />
             </Tabs.Panel>
+
+            <NavLink
+              component="a"
+              href={`https://labs.kagi.com/ai/sum?url=${url}`}
+              label="Kagi"
+              target="_blank"
+              icon={<IconDog size={16} stroke={1.5} />}
+            />
           </>
         )}
       </Tabs>
