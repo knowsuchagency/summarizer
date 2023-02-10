@@ -1,6 +1,10 @@
-# Summarizer
+# Kagi Summarizer
 
 This browser extension builds on top of the [kagi universal summarizer](https://labs.kagi.com/ai/sum) to summarize pages you visit within a popup window.
+
+The summarizer they have built does a better job of summarizing pages than ChatGPT in my experience and I wanted a smoother experience for using it.
+
+This extension isn't associated with Kagi. Although I will say I was so impressed with their summarizer that I bought a subscription and am very happy with their search product.
 
 ---
 

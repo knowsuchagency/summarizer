@@ -1,8 +1,8 @@
 {
   "name": "summarizer",
-  "displayName": "Summarizer",
-  "version": "0.0.1",
-  "description": "An article summarizer utilizing kagi",
+  "displayName": "Kagi Summarizer",
+  "version": "0.0.2",
+  "description": "An article summarizer utilizing https://labs.kagi.com/ai/sum",
   "author": "stephanfitzpatrick",
   "scripts": {
     "dev": "plasmo dev",
