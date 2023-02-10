@@ -12,11 +12,16 @@
     "api:local": ". .venv/bin/activate ; cd api ; chalice local"
   },
   "dependencies": {
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.10.5",
+    "@mantine/core": "^5.10.3",
+    "@mantine/hooks": "^5.10.3",
     "plasmo": "0.64.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.12",
     "@plasmohq/prettier-plugin-sort-imports": "3.6.1",
     "@types/chrome": "0.0.210",
     "@types/node": "18.11.18",
