@@ -1,18 +1,70 @@
+import { Container, Skeleton, Tabs, Text } from "@mantine/core"
 import React, { useEffect, useState } from "react"
 
-const IndexPopup = () => {
-  const [url, setUrl] = useState("")
-  const [summary, setSummary] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false)
+import { ThemeProvider } from "~theme"
+
+function Loading() {
+  return (
+    <>
+      <Skeleton height={8} radius="xl" />
+      <Skeleton height={8} mt={6} radius="xl" />
+      <Skeleton height={8} mt={6} width="70%" radius="xl" />
+    </>
+  )
+}
+
+function TextWrapper(props: { html: string }) {
+  return (
+    <Text fz="xl" fw={500}>
+      <p
+        style={{ lineHeight: "32px" }}
+        dangerouslySetInnerHTML={{ __html: props.html }}
+      />
+    </Text>
+  )
+}
+
+function LoadingOrText(props: { loading: boolean; html: string }) {
+  return (
+    <Container>
+      {props.loading ? <Loading /> : TextWrapper({ html: props.html })}
+    </Container>
+  )
+}
+
+function KeyMoments({ url }) {
+  const [keyMoments, setKeyMoments] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
+
+  async function getTakeaways(url: string): Promise<string> {
+    const takeawaysUrl = "https://labs.kagi.com/v1/takeaways"
+    const resp = await fetch(takeawaysUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ url: url })
+    })
+    const data = await resp.json()
+    return data.takeaways
+  }
 
   useEffect(() => {
-    // @ts-ignore
-    const queryTabs = window.chrome?.tabs?.query || browser.tabs.query
-    queryTabs({ active: true, currentWindow: true }, function (tabs) {
-      setUrl(tabs[0].url)
-    })
-  }, [])
+    const fetchKeyMoments = async () => {
+      setIsLoading(true)
+      const keyMoments = await getTakeaways(url)
+      setKeyMoments(keyMoments)
+      setIsLoading(false)
+    }
+    fetchKeyMoments()
+  }, [url])
+
+  return <LoadingOrText loading={isLoading} html={keyMoments} />
+}
+
+function Summary({ url }) {
+  const [summary, setSummary] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (!url) return
@@ -48,44 +100,43 @@ const IndexPopup = () => {
     fetchData()
   }, [url])
 
-  // useEffect to detect if dark mode is enabled or not
+  return <LoadingOrText loading={isLoading} html={summary} />
+}
+
+function IndexPopup() {
+  const [url, setUrl] = useState("")
+
   useEffect(() => {
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      setIsDarkMode(true)
-    } else {
-      setIsDarkMode(false)
-    }
+    // @ts-ignore
+    const queryTabs = window.chrome?.tabs?.query || browser.tabs.query
+    queryTabs({ active: true, currentWindow: true }, function (tabs) {
+      setUrl(tabs[0].url)
+    })
   }, [])
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: 16,
-        width: 500,
-        height: "100%",
-        fontSize: 20,
-        backgroundColor: isDarkMode ? "#333" : "#fff",
-        color: isDarkMode ? "#fff" : "#333"
-      }}>
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <p
-          style={{
-            fontSize: 24,
-            lineHeight: "32px",
-            textAlign: "justify",
-            fontFamily: "system-ui, sans-serif"
-          }}
-          dangerouslySetInnerHTML={{ __html: summary }}
-        />
-      )}
-    </div>
+    <ThemeProvider>
+      <Tabs
+        defaultValue="Summary"
+        orientation="horizontal"
+        sx={{ width: "400px" }}>
+        <Tabs.List grow={true}>
+          <Tabs.Tab value="Summary">Summary</Tabs.Tab>
+          <Tabs.Tab value="Key Moments">Key Moments</Tabs.Tab>
+        </Tabs.List>
+
+        {url && (
+          <>
+            <Tabs.Panel value="Summary" pt="md">
+              <Summary url={url} />
+            </Tabs.Panel>
+            <Tabs.Panel value="Key Moments" pt="xs">
+              <KeyMoments url={url} />
+            </Tabs.Panel>
+          </>
+        )}
+      </Tabs>
+    </ThemeProvider>
   )
 }
 
