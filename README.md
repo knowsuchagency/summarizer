@@ -6,6 +6,8 @@ The summarizer they have built does a better job of summarizing pages than ChatG
 
 This extension isn't associated with Kagi. Although I will say I was so impressed with their summarizer that I bought a subscription and am very happy with their search product.
 
+Demo: https://www.loom.com/share/cf10208c18394112a40cf513b7b2b2ef
+
 ---
 
 This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
