@@ -64,10 +64,18 @@ function TextWrapper({ text }: { text: string }) {
 
 function LoadingOrText({ loading, text }: { loading: boolean; text: string }) {
   return (
-    <Container style={{ minHeight: "100px" }}>
+    <Container sx={{ padding: "1.4rem" }}>
       {loading ? <Loading /> : <TextWrapper text={text} />}
     </Container>
   )
+}
+
+function assertIsNonEmptyString(
+  value: unknown,
+): asserts value is string {
+  if (typeof value !== "string" || value.length === 0) {
+    throw new Error("The summary returned is empty.")
+  }
 }
 
 function KeyMoments({ url }: { url: string }) {
@@ -79,9 +87,11 @@ function KeyMoments({ url }: { url: string }) {
       setIsLoading(true)
       try {
         const keyMoments = await summarize(url, "takeaway")
+        // assert that keyMoments is a non-empty string
+        assertIsNonEmptyString(keyMoments)
         setKeyMoments(keyMoments)
       } catch (error) {
-        setKeyMoments("An error occurred while summarizing the key moments.")
+        setKeyMoments(error.message)
       }
       setIsLoading(false)
     }
@@ -103,9 +113,11 @@ function Summary({ url }: { url: string }) {
       setIsLoading(true)
       try {
         const summary = await summarize(url)
+        // assert that summary is a non-empty string
+        assertIsNonEmptyString(summary)
         setSummary(summary)
       } catch (error) {
-        setSummary("An error occurred while summarizing the URL.")
+        setSummary(error.message)
       }
       setIsLoading(false)
     }

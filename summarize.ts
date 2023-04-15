@@ -1,6 +1,4 @@
-import storage from "~storage"
-
-import { getCachedData, setCachedData } from "./cache"
+import storage, { getCachedData, setCachedData } from "~storage";
 
 type SummaryType = "summary" | "takeaway"
 
@@ -34,7 +32,7 @@ async function summarize(
   })
 
   if (!response.ok) {
-    throw new Error(`Failed to get summary: ${response.statusText}`)
+    throw new Error(`Failed to fetch summary: ${response.statusText}`)
   }
 
   const data = await response.json()
