@@ -1,7 +1,8 @@
-import { Container, NavLink, Skeleton, Tabs, Text } from "@mantine/core"
+import { Container, List, NavLink, Skeleton, Tabs, Text } from "@mantine/core"
 import { IconDog, IconNotebook, IconSquareAsterisk } from "@tabler/icons-react"
 import React, { useEffect, useState } from "react"
 
+import summarize from "~summarize"
 import { ThemeProvider } from "~theme"
 
 function Loading() {
@@ -14,29 +15,47 @@ function Loading() {
   )
 }
 
-function TextWrapper(props: { html: string }) {
-  function ableToSummarize(html) {
-    return !html.includes("Unable to summarize, text is too short.")
+function TextWrapper(props: { text: string }) {
+  function ableToSummarize(text: string) {
+    console.log(`text: ${JSON.stringify(text)}`)
+    return !text.includes("We are sorry, we were not able to summarize this")
   }
 
-  const html = ableToSummarize(props.html)
-    ? props.html
+  function BulletList(props: { bullets: string }) {
+    const lines = props.bullets.split("\n").filter(Boolean)
+    const bulletArray = lines.map((line) => {
+      const strippedLine = line.replace(/^-\s*/, "") // remove leading "- " if present
+      return <List.Item key={strippedLine}>{strippedLine}</List.Item>
+    })
+    return (
+      <List>
+        <Text fz={"sm"} fw={500}>
+          {" "}
+          {bulletArray}{" "}
+        </Text>
+      </List>
+    )
+  }
+
+  let text: any = ableToSummarize(props.text)
+    ? props.text
     : "Unable to summarize, text is too short."
 
+  if (text.startsWith("- ")) {
+    return BulletList({ bullets: text })
+  }
+
   return (
-    <Text fz="xl" fw={500}>
-      <p
-        style={{ lineHeight: "32px" }}
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+    <Text fz="sm" fw={500}>
+      {text}
     </Text>
   )
 }
 
-function LoadingOrText(props: { loading: boolean; html: string }) {
+function LoadingOrText(props: { loading: boolean; text: string }) {
   return (
     <Container>
-      {props.loading ? <Loading /> : TextWrapper({ html: props.html })}
+      {props.loading ? <Loading /> : TextWrapper({ text: props.text })}
     </Container>
   )
 }
@@ -45,30 +64,17 @@ function KeyMoments({ url }) {
   const [keyMoments, setKeyMoments] = useState("")
   const [isLoading, setIsLoading] = useState(true)
 
-  async function getTakeaways(url: string): Promise<string> {
-    const takeawaysUrl = "https://labs.kagi.com/v1/takeaways"
-    const resp = await fetch(takeawaysUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ url: url })
-    })
-    const data = await resp.json()
-    return data.takeaways
-  }
-
   useEffect(() => {
     const fetchKeyMoments = async () => {
       setIsLoading(true)
-      const keyMoments = await getTakeaways(url)
+      const keyMoments = await summarize(url, "takeaway")
       setKeyMoments(keyMoments)
       setIsLoading(false)
     }
     fetchKeyMoments()
   }, [url])
 
-  return <LoadingOrText loading={isLoading} html={keyMoments} />
+  return <LoadingOrText loading={isLoading} text={keyMoments} />
 }
 
 function Summary({ url }) {
@@ -79,37 +85,14 @@ function Summary({ url }) {
     if (!url) return
     setIsLoading(true)
     const fetchData = async () => {
-      const postRequest = await fetch(
-        "https://labs.kagi.com/v1/summarization",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ url: url })
-        }
-      )
-
-      console.log(`summary POST request: ${JSON.stringify(postRequest)}`)
-
-      let responseJson = await (
-        await fetch(`https://labs.kagi.com/v1/summary_status?url=${url}`)
-      ).json()
-      while (responseJson.status !== "completed") {
-        console.log(`waiting 1 second for summary of ${url}`)
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        const newResponse = await fetch(
-          `https://labs.kagi.com/v1/summary_status?url=${url}`
-        )
-        responseJson = await newResponse.json()
-      }
-      setSummary(responseJson.summary)
+      const summary = await summarize(url)
+      setSummary(summary)
       setIsLoading(false)
     }
     fetchData()
   }, [url])
 
-  return <LoadingOrText loading={isLoading} html={summary} />
+  return <LoadingOrText loading={isLoading} text={summary} />
 }
 
 function IndexPopup() {
@@ -150,7 +133,7 @@ function IndexPopup() {
 
             <NavLink
               component="a"
-              href={`https://labs.kagi.com/ai/sum?url=${url}`}
+              href={`https://kagi.com/summarizer/index.html?url=${url}`}
               label="Kagi"
               target="_blank"
               icon={<IconDog size={16} stroke={1.5} />}
