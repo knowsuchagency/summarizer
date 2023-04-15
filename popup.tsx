@@ -15,34 +15,38 @@ function Loading() {
   )
 }
 
-function TextWrapper(props: { text: string }) {
-  function ableToSummarize(text: string) {
-    console.log(`text: ${JSON.stringify(text)}`)
-    return !text.includes("We are sorry, we were not able to summarize this")
-  }
+function BulletList({ bullets }: { bullets: string }) {
+  const lines = bullets.split("\n").filter(Boolean)
+  const bulletArray = lines.map((line) => (
+    <List.Item key={line.replace(/^-\s*/, "")}>
+      {line.replace(/^-\s*/, "")}
+    </List.Item>
+  ))
 
-  function BulletList(props: { bullets: string }) {
-    const lines = props.bullets.split("\n").filter(Boolean)
-    const bulletArray = lines.map((line) => {
-      const strippedLine = line.replace(/^-\s*/, "") // remove leading "- " if present
-      return <List.Item key={strippedLine}>{strippedLine}</List.Item>
-    })
+  return (
+    <List>
+      <Text fz="sm" fw={500}>
+        {bulletArray}
+      </Text>
+    </List>
+  )
+}
+
+function TextWrapper({ text }: { text: string }) {
+  const ableToSummarize = !text.includes(
+    "We are sorry, we were not able to summarize this"
+  )
+
+  if (!ableToSummarize) {
     return (
-      <List>
-        <Text fz={"sm"} fw={500}>
-          {" "}
-          {bulletArray}{" "}
-        </Text>
-      </List>
+      <Text fz="sm" fw={500}>
+        Unable to summarize, text is too short.
+      </Text>
     )
   }
 
-  let text: any = ableToSummarize(props.text)
-    ? props.text
-    : "Unable to summarize, text is too short."
-
   if (text.startsWith("- ")) {
-    return BulletList({ bullets: text })
+    return <BulletList bullets={text} />
   }
 
   return (
@@ -52,15 +56,13 @@ function TextWrapper(props: { text: string }) {
   )
 }
 
-function LoadingOrText(props: { loading: boolean; text: string }) {
+function LoadingOrText({ loading, text }: { loading: boolean; text: string }) {
   return (
-    <Container>
-      {props.loading ? <Loading /> : TextWrapper({ text: props.text })}
-    </Container>
+    <Container>{loading ? <Loading /> : <TextWrapper text={text} />}</Container>
   )
 }
 
-function KeyMoments({ url }) {
+function KeyMoments({ url }: { url: string }) {
   const [keyMoments, setKeyMoments] = useState("")
   const [isLoading, setIsLoading] = useState(true)
 
@@ -71,25 +73,28 @@ function KeyMoments({ url }) {
       setKeyMoments(keyMoments)
       setIsLoading(false)
     }
+
     fetchKeyMoments()
   }, [url])
 
   return <LoadingOrText loading={isLoading} text={keyMoments} />
 }
 
-function Summary({ url }) {
+function Summary({ url }: { url: string }) {
   const [summary, setSummary] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (!url) return
-    setIsLoading(true)
-    const fetchData = async () => {
+
+    const fetchSummary = async () => {
+      setIsLoading(true)
       const summary = await summarize(url)
       setSummary(summary)
       setIsLoading(false)
     }
-    fetchData()
+
+    fetchSummary()
   }, [url])
 
   return <LoadingOrText loading={isLoading} text={summary} />
@@ -101,6 +106,7 @@ function IndexPopup() {
   useEffect(() => {
     // @ts-ignore
     const queryTabs = window.chrome?.tabs?.query || browser.tabs.query
+
     queryTabs({ active: true, currentWindow: true }, function (tabs) {
       setUrl(tabs[0].url)
     })
