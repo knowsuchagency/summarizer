@@ -25,7 +25,7 @@ export default function OptionsPage() {
       </Text>
       <TextInput
         label="Enter your Kagi API key"
-        placeholder="e.g. xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+        placeholder="e.g. xxxxxxxx.xxxxxxxxxxxx"
         value={apiKey}
         onChange={(event) => setApiKey(event.currentTarget.value)}
         style={{ marginBottom: "1rem", minWidth: "300px" }}
