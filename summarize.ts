@@ -1,17 +1,18 @@
-import { getCachedData, setCachedData } from "./cache"
 import storage from "~storage"
+
+import { getCachedData, setCachedData } from "./cache"
 
 type SummaryType = "summary" | "takeaway"
 
 async function summarize(
-    url: string,
-    summaryType: SummaryType = "summary",
+  url: string,
+  summaryType: SummaryType = "summary"
 ): Promise<string> {
   const kagiToken = await storage.get("kagiToken")
-  const engine = await storage.get("kagiSummarizerEngine") || "agnes"
+  const engine = (await storage.get("kagiSummarizerEngine")) || "daphne"
 
   console.log(
-      `fetching summary for ${url} with engine ${engine} and summary type ${summaryType}`
+    `fetching summary for ${url} with engine ${engine} and summary type ${summaryType}`
   )
 
   const key = `${url}-${engine}-${summaryType}`

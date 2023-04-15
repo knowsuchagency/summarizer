@@ -1,12 +1,9 @@
 import { Container, List, NavLink, Skeleton, Tabs, Text } from "@mantine/core"
 import {
   IconAdjustments,
-  IconArticle,
   IconBulb,
   IconDog,
-  IconNews,
-  IconNotebook,
-  IconSquareAsterisk
+  IconNews
 } from "@tabler/icons-react"
 import React, { useEffect, useState } from "react"
 
@@ -137,7 +134,8 @@ function IndexPopup() {
         defaultValue="Summary"
         orientation="horizontal"
         variant="outline"
-        sx={{ width: "600px" }}>
+        keepMounted={false}
+        sx={{ width: "650px" }}>
         <Tabs.List grow={true}>
           {url && (
             <>

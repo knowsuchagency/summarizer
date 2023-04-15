@@ -1,15 +1,7 @@
-import {
-  Button,
-  Container,
-  SegmentedControl,
-  Text,
-  TextInput
-} from "@mantine/core"
-import { useEffect, useState } from "react"
+import { Container, SegmentedControl, Text, TextInput } from "@mantine/core"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
-import { clearCache } from "~cache"
 import storage from "~storage"
 
 export default function Options() {
@@ -18,8 +10,8 @@ export default function Options() {
     instance: storage
   })
 
-  const [model, setModel] = useStorage("kagiSummarizerModel", (v) =>
-    v === undefined ? "agnes" : v
+  const [model, setModel] = useStorage("kagiSummarizerEngine", (v) =>
+    v === undefined ? "daphne" : v
   )
 
   return (
@@ -38,15 +30,15 @@ export default function Options() {
         onChange={(event) => setApiKey(event.currentTarget.value)}
         style={{ marginBottom: "1rem", minWidth: "300px" }}
       />
-      {/*<Text>Select Model</Text>*/}
-      {/*<SegmentedControl*/}
-      {/*  data={[*/}
-      {/*    { label: "Technical", value: "agnes" },*/}
-      {/*    { label: "Casual", value: "daphne" }*/}
-      {/*  ]}*/}
-      {/*  value={model}*/}
-      {/*  onChange={setModel}*/}
-      {/*/>*/}
+      <Text>Select Model</Text>
+      <SegmentedControl
+        data={[
+          { label: "Casual", value: "daphne" },
+          { label: "Technical", value: "agnes" }
+        ]}
+        value={model}
+        onChange={setModel}
+      />
     </Container>
   )
 }

@@ -2,6 +2,10 @@ import type { EmotionCache } from "@mantine/core"
 import { MantineProvider } from "@mantine/core"
 import type { PropsWithChildren } from "react"
 
+
+
+
+
 interface Props extends PropsWithChildren {
   emotionCache?: EmotionCache
 }
