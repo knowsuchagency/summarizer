@@ -1,7 +1,16 @@
 import { Container, List, NavLink, Skeleton, Tabs, Text } from "@mantine/core"
-import { IconDog, IconNotebook, IconSquareAsterisk } from "@tabler/icons-react"
+import {
+  IconAdjustments,
+  IconArticle,
+  IconBulb,
+  IconDog,
+  IconNews,
+  IconNotebook,
+  IconSquareAsterisk
+} from "@tabler/icons-react"
 import React, { useEffect, useState } from "react"
 
+import Options from "~options"
 import summarize from "~summarize"
 import { ThemeProvider } from "~theme"
 
@@ -25,7 +34,7 @@ function BulletList({ bullets }: { bullets: string }) {
 
   return (
     <List>
-      <Text fz="sm" fw={500}>
+      <Text fz="md" fw={500}>
         {bulletArray}
       </Text>
     </List>
@@ -39,7 +48,7 @@ function TextWrapper({ text }: { text: string }) {
 
   if (!ableToSummarize) {
     return (
-      <Text fz="sm" fw={500}>
+      <Text fz="lg" fw={500}>
         Unable to summarize, text is too short.
       </Text>
     )
@@ -50,7 +59,7 @@ function TextWrapper({ text }: { text: string }) {
   }
 
   return (
-    <Text fz="sm" fw={500}>
+    <Text fz="lg" fw={500}>
       {text}
     </Text>
   )
@@ -58,7 +67,9 @@ function TextWrapper({ text }: { text: string }) {
 
 function LoadingOrText({ loading, text }: { loading: boolean; text: string }) {
   return (
-    <Container>{loading ? <Loading /> : <TextWrapper text={text} />}</Container>
+    <Container style={{ minHeight: "100px" }}>
+      {loading ? <Loading /> : <TextWrapper text={text} />}
+    </Container>
   )
 }
 
@@ -69,8 +80,12 @@ function KeyMoments({ url }: { url: string }) {
   useEffect(() => {
     const fetchKeyMoments = async () => {
       setIsLoading(true)
-      const keyMoments = await summarize(url, "takeaway")
-      setKeyMoments(keyMoments)
+      try {
+        const keyMoments = await summarize(url, "takeaway")
+        setKeyMoments(keyMoments)
+      } catch (error) {
+        setKeyMoments("An error occurred while summarizing the key moments.")
+      }
       setIsLoading(false)
     }
 
@@ -89,8 +104,12 @@ function Summary({ url }: { url: string }) {
 
     const fetchSummary = async () => {
       setIsLoading(true)
-      const summary = await summarize(url)
-      setSummary(summary)
+      try {
+        const summary = await summarize(url)
+        setSummary(summary)
+      } catch (error) {
+        setSummary("An error occurred while summarizing the URL.")
+      }
       setIsLoading(false)
     }
 
@@ -118,19 +137,31 @@ function IndexPopup() {
         defaultValue="Summary"
         orientation="horizontal"
         variant="outline"
-        sx={{ width: "400px" }}>
+        sx={{ width: "600px" }}>
         <Tabs.List grow={true}>
-          <Tabs.Tab value="Summary" icon={<IconNotebook size={16} />}>
-            Summary
-          </Tabs.Tab>
-          <Tabs.Tab value="Key Moments" icon={<IconSquareAsterisk size={16} />}>
-            Key Moments
+          {url && (
+            <>
+              <Tabs.Tab value="Summary" icon={<IconNews size={16} />}>
+                Summary
+              </Tabs.Tab>
+              <Tabs.Tab value="Key Moments" icon={<IconBulb size={16} />}>
+                Key Moments
+              </Tabs.Tab>
+            </>
+          )}
+
+          <Tabs.Tab value="Settings" icon={<IconAdjustments size={16} />}>
+            Settings
           </Tabs.Tab>
         </Tabs.List>
 
+        <Tabs.Panel value="Settings" pt="xs">
+          <Options />
+        </Tabs.Panel>
+
         {url && (
           <>
-            <Tabs.Panel value="Summary" pt="md">
+            <Tabs.Panel value="Summary" pt="xs">
               <Summary url={url} />
             </Tabs.Panel>
             <Tabs.Panel value="Key Moments" pt="xs">
@@ -140,9 +171,11 @@ function IndexPopup() {
             <NavLink
               component="a"
               href={`https://kagi.com/summarizer/index.html?url=${url}`}
-              label="Kagi"
+              label="Open summary in new tab"
               target="_blank"
               icon={<IconDog size={16} stroke={1.5} />}
+              variant="subtle"
+              active
             />
           </>
         )}

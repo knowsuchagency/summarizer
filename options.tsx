@@ -1,14 +1,26 @@
-import { Button, Container, Text, TextInput } from "@mantine/core"
+import {
+  Button,
+  Container,
+  SegmentedControl,
+  Text,
+  TextInput
+} from "@mantine/core"
+import { useEffect, useState } from "react"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
+import { clearCache } from "~cache"
 import storage from "~storage"
 
-export default function OptionsPage() {
+export default function Options() {
   const [apiKey, setApiKey] = useStorage({
     key: "kagiToken",
     instance: storage
   })
+
+  const [model, setModel] = useStorage("kagiSummarizerModel", (v) =>
+    v === undefined ? "agnes" : v
+  )
 
   return (
     <Container
@@ -19,10 +31,6 @@ export default function OptionsPage() {
         justifyContent: "center",
         height: "100vh"
       }}>
-      <Text
-        style={{ marginBottom: "1rem", fontSize: "2rem", fontWeight: "bold" }}>
-        Kagi API Key
-      </Text>
       <TextInput
         label="Enter your Kagi API key"
         placeholder="e.g. xxxxxxxx.xxxxxxxxxxxx"
@@ -30,15 +38,15 @@ export default function OptionsPage() {
         onChange={(event) => setApiKey(event.currentTarget.value)}
         style={{ marginBottom: "1rem", minWidth: "300px" }}
       />
-      <Button
-        variant="outline"
-        color="blue"
-        onClick={
-          () => alert("API key saved!") /*replace with actual save function*/
-        }
-        style={{ minWidth: "150px" }}>
-        Save
-      </Button>
+      {/*<Text>Select Model</Text>*/}
+      {/*<SegmentedControl*/}
+      {/*  data={[*/}
+      {/*    { label: "Technical", value: "agnes" },*/}
+      {/*    { label: "Casual", value: "daphne" }*/}
+      {/*  ]}*/}
+      {/*  value={model}*/}
+      {/*  onChange={setModel}*/}
+      {/*/>*/}
     </Container>
   )
 }
