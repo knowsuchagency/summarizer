@@ -1,4 +1,5 @@
 import { Container, List, NavLink, Skeleton, Tabs, Text } from "@mantine/core"
+import { useColorScheme } from "@mantine/hooks"
 import {
   IconAdjustments,
   IconBulb,
@@ -70,9 +71,7 @@ function LoadingOrText({ loading, text }: { loading: boolean; text: string }) {
   )
 }
 
-function assertIsNonEmptyString(
-  value: unknown,
-): asserts value is string {
+function assertIsNonEmptyString(value: unknown): asserts value is string {
   if (typeof value !== "string" || value.length === 0) {
     throw new Error("The summary returned is empty.")
   }
@@ -130,6 +129,7 @@ function Summary({ url }: { url: string }) {
 
 function IndexPopup() {
   const [url, setUrl] = useState("")
+  const colorScheme = useColorScheme()
 
   useEffect(() => {
     // @ts-ignore
@@ -147,8 +147,16 @@ function IndexPopup() {
         orientation="horizontal"
         variant="outline"
         keepMounted={false}
-        sx={{ width: "650px" }}>
-        <Tabs.List grow={true}>
+        sx={{ width: "550px" }}>
+        <Tabs.List
+          grow={true}
+          sx={{
+            position: "sticky",
+            top: 0,
+            width: "100%",
+            zIndex: 1,
+            background: colorScheme === "dark" ? "#1e1e1e" : "#fff"
+          }}>
           {url && (
             <>
               <Tabs.Tab value="Summary" icon={<IconNews size={16} />}>

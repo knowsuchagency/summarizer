@@ -1,7 +1,7 @@
 import type { EmotionCache } from "@mantine/core"
 import { MantineProvider } from "@mantine/core"
 import type { PropsWithChildren } from "react"
-import { useColorScheme } from "~node_modules/@mantine/hooks";
+import { useColorScheme } from "@mantine/hooks";
 
 interface Props extends PropsWithChildren {
   emotionCache?: EmotionCache
