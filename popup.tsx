@@ -14,11 +14,11 @@ import { ThemeProvider } from "~theme"
 
 function Loading() {
   return (
-    <Container>
+    <>
       <Skeleton height={8} radius="xl" />
       <Skeleton height={8} mt={6} radius="xl" />
       <Skeleton height={8} mt={6} width="70%" radius="xl" />
-    </Container>
+    </>
   )
 }
 
@@ -63,9 +63,18 @@ function TextWrapper({ text }: { text: string }) {
   )
 }
 
-function LoadingOrText({ loading, text }: { loading: boolean; text: string }) {
+function LoadingOrText({
+  loading,
+  text,
+  keyMoments
+}: {
+  loading: boolean
+  text: string
+  keyMoments: boolean
+}) {
+  const defaultPadding = "1.4rem"
   return (
-    <Container p="1.4rem">
+    <Container p={defaultPadding} pr={keyMoments ? "3rem" : defaultPadding}>
       {loading ? <Loading /> : <TextWrapper text={text} />}
     </Container>
   )
@@ -98,7 +107,9 @@ function KeyMoments({ url }: { url: string }) {
     fetchKeyMoments()
   }, [url])
 
-  return <LoadingOrText loading={isLoading} text={keyMoments} />
+  return (
+    <LoadingOrText loading={isLoading} text={keyMoments} keyMoments={true} />
+  )
 }
 
 function Summary({ url }: { url: string }) {
@@ -124,7 +135,7 @@ function Summary({ url }: { url: string }) {
     fetchSummary()
   }, [url])
 
-  return <LoadingOrText loading={isLoading} text={summary} />
+  return <LoadingOrText loading={isLoading} text={summary} keyMoments={false} />
 }
 
 function IndexPopup() {
