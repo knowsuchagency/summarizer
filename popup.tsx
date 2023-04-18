@@ -14,11 +14,11 @@ import { ThemeProvider } from "~theme"
 
 function Loading() {
   return (
-    <>
+    <Container>
       <Skeleton height={8} radius="xl" />
       <Skeleton height={8} mt={6} radius="xl" />
       <Skeleton height={8} mt={6} width="70%" radius="xl" />
-    </>
+    </Container>
   )
 }
 
