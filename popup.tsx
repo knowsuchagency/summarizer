@@ -65,7 +65,7 @@ function TextWrapper({ text }: { text: string }) {
 
 function LoadingOrText({ loading, text }: { loading: boolean; text: string }) {
   return (
-    <Container sx={{ padding: "1.4rem" }}>
+    <Container p="1.4rem">
       {loading ? <Loading /> : <TextWrapper text={text} />}
     </Container>
   )
