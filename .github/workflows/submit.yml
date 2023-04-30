@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Build the extension
-        run: yarn build
+        run: yarn build:firefox:prod
       - name: Package the extension into a zip artifact
         run: yarn package
       - name: Change directory and create zip artifact
