@@ -4,10 +4,12 @@
   "version": "1.0.0",
   "description": "A web extension for summarizing web content.",
   "author": "stephanfitzpatrick",
+  "license": "Apache-2.0",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
     "build:firefox:dev": "npx plasmo build --target=firefox-mv2 --tag=dev ; ./scripts/doctor_firefox_manifest.py",
+    "build:firefox:prod": "npx plasmo build --target=firefox-mv2 --tag=prod",
     "package": "plasmo package"
   },
   "dependencies": {
