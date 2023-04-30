@@ -1,6 +1,6 @@
 # Web Summarizer
 
-This browser extension uses the [https://kagi.com/summarizer/index.html) to summarize web content
+This browser extension uses the [Kagi Universal Summarizer](https://kagi.com/summarizer/index.html) to summarize web content
  within a popup window.
 
 In the future, it may use other models to summarize content.
