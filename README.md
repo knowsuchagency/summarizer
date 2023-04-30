@@ -1,17 +1,14 @@
-# Kagi Summarizer
+# Web Summarizer
 
-This browser extension builds on top of the [kagi universal summarizer](https://labs.kagi.com/ai/sum) to summarize pages
-you visit within a popup window.
+This browser extension uses the [https://kagi.com/summarizer/index.html) to summarize web content
+ within a popup window.
 
-The summarizer they have built does a better job of summarizing pages than ChatGPT in my experience and I wanted a
-smoother experience for using it.
+In the future, it may use other models to summarize content.
 
-This extension isn't associated with Kagi. Although I will say I was so impressed with their summarizer that I bought a
-subscription and am very happy with their search product.
-
-Demo: https://www.loom.com/share/cf10208c18394112a40cf513b7b2b2ef
 
 ---
+
+# Development
 
 This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped
 with [`plasmo init`](https://www.npmjs.com/package/plasmo).

@@ -1,8 +1,8 @@
 {
   "name": "summarizer",
-  "displayName": "Kagi Summarizer",
-  "version": "0.1.0",
-  "description": "An article summarizer utilizing https://kagi.com/summarizer/index.html",
+  "displayName": "Web Summarizer",
+  "version": "1.0.0",
+  "description": "A web extension for summarizing web content.",
   "author": "stephanfitzpatrick",
   "scripts": {
     "dev": "plasmo dev",
