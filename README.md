@@ -7,11 +7,12 @@ In the future, it may use other models to summarize content.
 
 ---
 
-<div style="display:flex;">
-  <img src="static/summary.png" alt="summary" style="max-width:300px; height:auto; margin-right:10px;">
-  <img src="static/key_moments.png" alt="key moments" style="max-width:300px; height:auto; margin-right:10px;">
-  <img src="static/settings.png" alt="settings" style="max-width:300px; height:auto;">
+<div style="display:flex; flex-wrap:nowrap; overflow-x:auto;">
+  <img src="static/summary.png" alt="summary" style="max-width:100%; height:auto; margin-right:10px;">
+  <img src="static/key_moments.png" alt="key moments" style="max-width:100%; height:auto; margin-right:10px;">
+  <img src="static/settings.png" alt="settings" style="max-width:100%; height:auto;">
 </div>
+
 
 
 ---
