@@ -6,7 +6,7 @@ This browser extension uses the [Kagi Universal Summarizer](https://kagi.com/sum
 In the future, it may use other models to summarize content.
 
 
-<details>
+<details open>
     <summary>Screenshots</summary>
     <div style="display:flex;">
         <img src="static/summary.png" alt="summary" style="max-width:200px; height:auto; margin-right:10px;">
