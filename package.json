@@ -1,7 +1,7 @@
 {
   "name": "summarizer",
   "displayName": "Web Summarizer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A web extension for summarizing web content.",
   "author": "stephanfitzpatrick",
   "license": "Apache-2.0",
